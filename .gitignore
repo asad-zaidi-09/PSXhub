@@ -1,0 +1,14 @@
+# Environment variables (contains your API key — never commit this!)
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# Dependencies
+node_modules
+
+# OS / editor junk
+.DS_Store
+Thumbs.db

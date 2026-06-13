@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSXHub — Pakistan Stock Exchange Investor Guide</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --psx-green: #0F6E56;
+      --psx-green-light: #E1F5EE;
+      --psx-green-dark: #085041;
+      --psx-gold: #EF9F27;
+      --psx-gold-light: #FAEEDA;
+      --psx-red: #E24B4A;
+      --psx-red-light: #FCEBEB;
+      --bg: #F8FAFB;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --border: rgba(0,0,0,0.08);
+      --border-medium: rgba(0,0,0,0.14);
+      --font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Courier New', monospace;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.6; }
+
+    .ticker-bar { background: #0F2318; color: #9FE1CB; font-size: 11px; font-family: var(--font-mono); padding: 6px 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-block; animation: scroll-ticker 40s linear infinite; padding-left: 100%; }
+    @keyframes scroll-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-item { display: inline-block; margin-right: 36px; }
+    .tick-up { color: #5DCAA5; }
+    .tick-dn { color: #F0997B; }
+
+    nav {
+      background: rgba(248,249,250,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+      position: absolute; top: 48px; left: 0; right: 0;
+      z-index: 100;
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    }
+    .nav-logo { color: var(--psx-green); font-size: 18px; font-weight: 700; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .nav-logo span { color: var(--psx-gold); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { color: #6b7280; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; cursor: pointer; border: none; background: none; font-family: var(--font); transition: color 0.15s; }
+    .nav-link:hover, .nav-link.active { color: var(--text-primary); background: rgba(0,0,0,0.04); }
+    .nav-cta { background: #0F2318; color: white; border: none; border-radius: 20px; padding: 7px 18px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: background 0.15s; }
+    .nav-cta:hover { background: var(--psx-green); }
+
+    .hero-wrap {
+      position: relative;
+      height: 100vh; min-height: 620px;
+      overflow: hidden;
+      background: #f8f9fa;
+    }
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.15;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(248,249,250,0.94) 0%, rgba(248,249,250,0.78) 60%, rgba(14,35,24,0.08) 100%);
+      z-index: 1;
+    }
+    .hero-body {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      height: 100%;
+      padding: 120px 32px 60px;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--psx-green); margin-bottom: 20px;
+    }
+    .eyebrow-line { width: 28px; height: 1px; background: var(--psx-green); flex-shrink: 0; }
+    .hero-h1-light {
+      display: block;
+      font-size: clamp(52px, 8vw, 80px);
+      font-weight: 400;
+      color: #9ca3af;
+      line-height: 1;
+      letter-spacing: -3px;
+    }
+    .hero-h1-bold {
+      display: block;
+      font-size: clamp(52px, 8vw, 80px);
+      font-weight: 700;
+      color: #0F2318;
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-top: -8px;
+    }
+    .hero-h1-bold em { font-style: normal; color: var(--psx-green); }
+    .hero-sub {
+      font-size: 16px; font-weight: 400;
+      color: #6b7280;
+      max-width: 420px; margin: 20px auto 0;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 12px; margin-top: 28px; justify-content: center; flex-wrap: wrap; }
+    .btn-outline-dark {
+      font-size: 13px; font-weight: 600;
+      padding: 9px 22px; border-radius: 20px;
+      background: rgba(255,255,255,0.85);
+      border: 0.5px solid rgba(0,0,0,0.15);
+      color: #374151; cursor: pointer; font-family: var(--font);
+      transition: background 0.15s;
+    }
+    .btn-outline-dark:hover { background: white; }
+    .btn-solid-dark {
+      font-size: 13px; font-weight: 600;
+      padding: 9px 22px; border-radius: 20px;
+      background: #0F2318; color: white;
+      border: none; cursor: pointer; font-family: var(--font);
+      transition: background 0.15s;
+    }
+    .btn-solid-dark:hover { background: var(--psx-green); }
+
+    .hero-stats {
+      display: flex; gap: 0;
+      margin-top: 44px;
+      border-top: 0.5px solid rgba(0,0,0,0.1);
+      padding-top: 24px;
+      width: 100%; max-width: 520px;
+    }
+    .hstat { flex: 1; text-align: center; padding: 0 16px; border-right: 0.5px solid rgba(0,0,0,0.08); }
+    .hstat:last-child { border-right: none; }
+    .hstat-num { font-size: 22px; font-weight: 700; color: #0F2318; letter-spacing: -0.5px; font-family: var(--font-mono); }
+    .hstat-num sup { font-size: 13px; color: var(--psx-green); font-weight: 600; margin-left: 2px; font-family: var(--font); }
+    .hstat-label { font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 3px; }
+
+    .kse-float {
+      position: absolute; z-index: 3;
+      right: 48px; top: 50%;
+      transform: translateY(-30%);
+      background: white;
+      border: 0.5px solid rgba(0,0,0,0.1);
+      border-radius: 14px;
+      padding: 16px 20px;
+      min-width: 170px;
+    }
+    .kse-float-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #9ca3af; margin-bottom: 6px; font-weight: 600; }
+    .kse-float-val { font-size: 22px; font-weight: 700; color: var(--psx-green); font-family: var(--font-mono); letter-spacing: -0.5px; }
+    .kse-float-chg { font-size: 11px; color: var(--psx-green); font-weight: 600; margin-top: 2px; }
+    .kse-mini-bars { display: flex; gap: 3px; margin-top: 10px; align-items: flex-end; height: 26px; }
+    .kbar { width: 7px; border-radius: 2px 2px 0 0; background: var(--psx-green); }
+
+    section { padding: 52px 32px; max-width: 900px; margin: 0 auto; }
+    .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--psx-green); margin-bottom: 8px; }
+    .section-title { font-size: 28px; font-weight: 800; color: var(--text-primary); margin-bottom: 10px; line-height: 1.2; }
+    .section-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.65; max-width: 580px; }
+    .section-divider { border: none; border-top: 0.5px solid var(--border); }
+    .up { color: var(--psx-green); }
+    .dn { color: var(--psx-red); }
+    .muted { color: var(--text-secondary); }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; padding: 20px; }
+    .card-icon { width: 40px; height: 40px; background: var(--psx-green-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 18px; color: var(--psx-green); }
+    .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+    .card-action { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--psx-green); margin-top: 12px; cursor: pointer; background: none; border: none; padding: 0; font-weight: 600; font-family: var(--font); }
+
+    .table-wrap { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .stock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .stock-table th { text-align: left; font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--text-secondary); padding: 10px 16px; border-bottom: 0.5px solid var(--border); font-weight: 600; }
+    .stock-table td { padding: 11px 16px; border-bottom: 0.5px solid var(--border); }
+    .stock-table tr:last-child td { border-bottom: none; }
+    .stock-table tbody tr:hover td { background: #f5f8f7; cursor: pointer; }
+    .stock-name { font-weight: 600; }
+    .stock-sector { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .pill { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .pill-up { background: #E1F5EE; color: #085041; }
+    .pill-dn { background: var(--psx-red-light); color: #501313; }
+    .data-note { font-size: 11px; color: var(--text-secondary); margin-top: 10px; padding: 8px 12px; background: var(--bg); border-radius: 8px; border: 0.5px solid var(--border); }
+
+    .calc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .calc-panel { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; padding: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: block; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+    .form-input { width: 100%; padding: 9px 13px; border-radius: 8px; border: 0.5px solid var(--border-medium); background: var(--bg); color: var(--text-primary); font-size: 14px; font-family: var(--font); }
+    .form-input:focus { outline: none; border-color: var(--psx-green); }
+    .result-panel { background: var(--psx-green-light); border-radius: 12px; padding: 22px; }
+    .result-num { font-size: 34px; font-weight: 900; color: var(--psx-green-dark); font-family: var(--font-mono); }
+    .result-label { font-size: 13px; color: var(--psx-green); margin-top: 4px; }
+    .result-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 0.5px solid rgba(15,110,86,0.2); font-size: 13px; }
+    .result-row:last-child { border-bottom: none; }
+    .result-row-label { color: #0F6E56; }
+    .result-row-val { font-weight: 700; color: var(--psx-green-dark); font-family: var(--font-mono); }
+    .green-btn { width: 100%; background: var(--psx-green-dark); color: white; border: none; border-radius: 8px; padding: 11px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); margin-top: 16px; }
+    .green-btn:hover { background: var(--psx-green); }
+    .green-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .ai-response { margin-top: 16px; background: white; border: 0.5px solid var(--border); border-radius: 10px; padding: 16px 18px; font-size: 14px; line-height: 1.75; display: none; }
+    .ai-response.visible { display: block; }
+    .ai-response-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--psx-green); font-weight: 600; margin-bottom: 8px; }
+    .ai-loading { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; }
+    .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--psx-green); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .explain-wrap { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; padding: 24px; }
+    .explain-input-row { display: flex; gap: 10px; }
+    .explain-input-row input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border-medium); background: var(--bg); color: var(--text-primary); font-size: 14px; font-family: var(--font); }
+    .explain-input-row input:focus { outline: none; border-color: var(--psx-green); }
+    .explain-btn { background: var(--psx-green); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: var(--font); }
+    .explain-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .explain-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag { background: var(--bg); border: 0.5px solid var(--border-medium); border-radius: 20px; padding: 5px 13px; font-size: 12px; cursor: pointer; color: var(--text-secondary); font-family: var(--font); }
+    .tag:hover { background: var(--psx-green-light); color: var(--psx-green-dark); }
+    .explain-output { margin-top: 20px; padding-top: 20px; border-top: 0.5px solid var(--border); }
+    .explain-output-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 10px; font-weight: 600; }
+    .explain-bubble { background: var(--psx-green-light); border-radius: 12px; padding: 16px 18px; font-size: 14px; color: var(--psx-green-dark); line-height: 1.75; min-height: 60px; }
+
+    .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .comp-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; padding: 18px; }
+    .comp-card.featured { border: 2px solid #1D9E75; }
+    .comp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .comp-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .comp-name { font-size: 14px; font-weight: 700; }
+    .comp-type { font-size: 11px; color: var(--text-secondary); }
+    .comp-badge { display: inline-block; background: #E1F5EE; color: #085041; font-size: 10px; padding: 3px 9px; border-radius: 10px; margin-bottom: 10px; font-weight: 700; }
+    .comp-rows { font-size: 12px; }
+    .comp-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 0.5px solid var(--border); color: var(--text-secondary); }
+    .comp-row:last-child { border-bottom: none; }
+    .comp-row-val { font-weight: 700; color: var(--text-primary); }
+    .wide-btn { width: 100%; background: none; border: 0.5px solid var(--border-medium); border-radius: 8px; padding: 11px 18px; font-size: 13px; color: var(--text-secondary); cursor: pointer; margin-top: 14px; font-family: var(--font); }
+    .wide-btn:hover { background: var(--bg-card); color: var(--text-primary); }
+    .wide-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .port-wrap { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; }
+    .port-header { padding: 20px 24px; border-bottom: 0.5px solid var(--border); }
+    .port-header-label { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .port-body { padding: 20px 24px; }
+    .port-add-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .port-add-row input { padding: 9px 12px; border-radius: 8px; border: 0.5px solid var(--border-medium); background: var(--bg); color: var(--text-primary); font-size: 13px; font-family: var(--font); }
+    .port-add-row input:focus { outline: none; border-color: var(--psx-green); }
+    .port-add-row input:first-child { flex: 2; min-width: 100px; }
+    .port-add-row input:not(:first-child) { flex: 1; min-width: 80px; }
+    .port-add-btn { background: var(--psx-green); color: white; border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); }
+    .port-list { margin: 16px 0; }
+    .port-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+    .port-row:last-child { border-bottom: none; }
+    .port-stock { font-weight: 700; }
+    .port-meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; }
+    .port-remove { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 16px; padding: 4px; }
+    .port-remove:hover { color: var(--psx-red); }
+    .port-total-row { display: flex; justify-content: space-between; padding: 10px 0 4px; font-size: 13px; border-top: 0.5px solid var(--border); }
+    .port-assess-btn { width: 100%; background: var(--psx-green); color: white; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 12px; font-family: var(--font); }
+    .port-assess-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .port-summary { background: var(--psx-green-light); border-radius: 10px; padding: 16px 18px; margin-top: 16px; }
+    .port-summary-title { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--psx-green); margin-bottom: 12px; font-weight: 600; }
+    .port-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .port-score-item { text-align: center; }
+    .port-score-num { font-size: 24px; font-weight: 900; color: var(--psx-green-dark); }
+    .port-score-label { font-size: 11px; color: var(--psx-green); margin-top: 2px; }
+
+    .liquid-glass {
+      background: rgba(255,255,255,0.01);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+        rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+        rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .ft-wrap {
+      background: #060e08;
+      padding: 0 32px 32px;
+      margin-top: 0;
+    }
+    footer.glass-footer {
+      border-radius: 24px;
+      padding: 36px 40px;
+      color: rgba(255,255,255,0.6);
+      animation: footer-up 1s 0.4s both ease-out;
+    }
+    @keyframes footer-up { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+    .ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 28px; }
+    .ft-logo { display: flex; align-items: center; gap: 8px; color: white; font-size: 17px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.3px; }
+    .ft-logo span { color: #5DCAA5; }
+    .ft-desc { font-size: 12px; line-height: 1.75; color: rgba(255,255,255,0.4); max-width: 230px; }
+    .ft-col-head { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: white; font-weight: 600; margin-bottom: 14px; }
+    .ft-links { display: flex; flex-direction: column; gap: 9px; }
+    .ft-link { font-size: 12px; color: rgba(255,255,255,0.45); cursor: pointer; background: none; border: none; text-align: left; font-family: var(--font); transition: color 0.15s; padding: 0; }
+    .ft-link:hover { color: white; }
+    .ft-bottom { border-top: 0.5px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .ft-copy { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); }
+    .ft-social { display: flex; align-items: center; gap: 16px; }
+    .ft-social-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); margin-right: 4px; }
+    .ft-icon { color: rgba(255,255,255,0.45); font-size: 17px; cursor: pointer; transition: color 0.15s; }
+    .ft-icon:hover { color: white; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 16px; }
+      .nav-link { padding: 5px 8px; font-size: 12px; }
+      section { padding: 36px 16px; }
+      .calc-wrap, .comp-grid { grid-template-columns: 1fr; }
+      .ft-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .ft-wrap { padding: 0 16px 24px; }
+      footer.glass-footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO WRAP -->
+<div class="hero-wrap">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="stock-video.mp4" type="video/mp4" />
+    <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="ticker-bar" style="position:absolute;top:0;left:0;right:0;z-index:5;">
+    <div class="ticker-inner" id="ticker-inner">
+      <span class="ticker-item">KSE-100 <strong class="tick-up">Loading...</strong></span>
+    </div>
+  </div>
+
+  <nav id="main-nav">
+    <a class="nav-logo" href="#"><i class="ti ti-chart-candle" aria-hidden="true"></i> PSX<span>Hub</span></a>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="smoothScroll('#dashboard')">Dashboard</button>
+      <button class="nav-link" onclick="smoothScroll('#calculator')">Calculator</button>
+      <button class="nav-link" onclick="smoothScroll('#explainer')">Explain It</button>
+      <button class="nav-link" onclick="smoothScroll('#compare')">Compare</button>
+      <button class="nav-link" onclick="smoothScroll('#portfolio')">Portfolio</button>
+    </div>
+    <button class="nav-cta" onclick="smoothScroll('#portfolio')">Start Investing →</button>
+  </nav>
+
+  <div class="kse-float">
+    <div class="kse-float-label">KSE-100</div>
+    <div class="kse-float-val" id="kse-val">112,450</div>
+    <div class="kse-float-chg" id="kse-chg">▲ +0.84% today</div>
+    <div class="kse-mini-bars">
+      <div class="kbar" style="height:10px;opacity:0.3;"></div>
+      <div class="kbar" style="height:14px;opacity:0.3;"></div>
+      <div class="kbar" style="height:9px;opacity:0.3;"></div>
+      <div class="kbar" style="height:18px;opacity:0.3;"></div>
+      <div class="kbar" style="height:13px;opacity:0.3;"></div>
+      <div class="kbar" style="height:22px;opacity:0.5;"></div>
+      <div class="kbar" style="height:26px;opacity:1;"></div>
+    </div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-line"></span>
+      Pakistan Stock Exchange
+      <span class="eyebrow-line"></span>
+    </div>
+    <h1 style="margin:0;">
+      <span class="hero-h1-light">Intelligent.</span>
+      <span class="hero-h1-bold">Accessible<em>.</em></span>
+    </h1>
+    <p class="hero-sub">Your wealth deserves a smarter entry point. Understand, compare, and grow your investments on the PSX — starting today.</p>
+    <div class="hero-btns">
+      <button class="btn-outline-dark" onclick="smoothScroll('#dashboard')">Explore Market</button>
+      <button class="btn-solid-dark" onclick="smoothScroll('#explainer')">Explain a stock →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-num">540<sup>+</sup></div>
+        <div class="hstat-label">Listed stocks</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">Rs 11.4T</div>
+        <div class="hstat-label">Market cap</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">15<sup>%</sup></div>
+        <div class="hstat-label">Avg. annual return</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">Rs 500</div>
+        <div class="hstat-label">Min. to start</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE CARDS -->
+<section>
+  <div class="section-eyebrow">What you can do here</div>
+  <h2 class="section-title">Five tools. Zero confusion.</h2>
+  <p class="section-sub">Everything a first-time Pakistani investor needs — in one place.</p>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon"><i class="ti ti-chart-line"></i></div>
+      <div class="card-title">Market Dashboard</div>
+      <div class="card-desc">Top KSE-100 stocks with price, change, and volume. Click any row for an AI explanation.</div>
+      <button class="card-action" onclick="smoothScroll('#dashboard')">View dashboard <i class="ti ti-arrow-right"></i></button>
+    </div>
+    <div class="card">
+      <div class="card-icon"><i class="ti ti-calculator"></i></div>
+      <div class="card-title">Investment Calculator</div>
+      <div class="card-desc">See what your money could grow to with compound returns over time.</div>
+      <button class="card-action" onclick="smoothScroll('#calculator')">Try calculator <i class="ti ti-arrow-right"></i></button>
+    </div>
+    <div class="card">
+      <div class="card-icon"><i class="ti ti-bulb"></i></div>
+      <div class="card-title">Explain It Like I'm 12</div>
+      <div class="card-desc">Type any stock or term — get a plain-English AI explanation instantly.</div>
+      <button class="card-action" onclick="smoothScroll('#explainer')">Try explainer <i class="ti ti-arrow-right"></i></button>
+    </div>
+    <div class="card">
+      <div class="card-icon"><i class="ti ti-scale"></i></div>
+      <div class="card-title">Pakistan vs. Alternatives</div>
+      <div class="card-desc">Compare PSX against savings accounts, gold, real estate, and crypto.</div>
+      <button class="card-action" onclick="smoothScroll('#compare')">Compare now <i class="ti ti-arrow-right"></i></button>
+    </div>
+    <div class="card">
+      <div class="card-icon"><i class="ti ti-briefcase"></i></div>
+      <div class="card-title">Portfolio Assessor</div>
+      <div class="card-desc">Add your stocks — get an honest AI assessment of your portfolio's health.</div>
+      <button class="card-action" onclick="smoothScroll('#portfolio')">Assess portfolio <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+  <div class="section-eyebrow">Market Dashboard</div>
+  <h2 class="section-title">Today's market at a glance</h2>
+  <p class="section-sub">Top KSE-100 stocks. Click any row to get an AI explanation of that company.</p>
+  <div class="table-wrap">
+    <table class="stock-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Price (Rs)</th>
+          <th>Change</th>
+          <th>Volume</th>
+          <th>P/E</th>
+        </tr>
+      </thead>
+      <tbody id="stock-table-body"></tbody>
+    </table>
+  </div>
+  <div class="data-note">
+    <i class="ti ti-info-circle" style="vertical-align:-2px;margin-right:4px;"></i>
+    PSX does not have a free public API. Data shown is indicative. For live data, subscribe to the PSX Data Portal.
+  </div>
+  <div class="ai-response" id="stock-explain-box">
+    <div class="ai-response-label">AI Explanation</div>
+    <div id="stock-explain-text"></div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- CALCULATOR -->
+<section id="calculator">
+  <div class="section-eyebrow">Investment Calculator</div>
+  <h2 class="section-title">What could your money become?</h2>
+  <p class="section-sub">Enter your investment details and see projected returns. PSX has historically returned around 12–18% annually.</p>
+  <div class="calc-wrap">
+    <div class="calc-panel">
+      <div class="form-group">
+        <label class="form-label" for="calc-principal">Starting amount (Rs)</label>
+        <input class="form-input" type="number" id="calc-principal" value="100000" oninput="calcUpdate()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="calc-monthly">Monthly contribution (Rs)</label>
+        <input class="form-input" type="number" id="calc-monthly" value="10000" oninput="calcUpdate()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="calc-rate">Expected annual return (%)</label>
+        <input class="form-input" type="number" id="calc-rate" value="15" oninput="calcUpdate()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="calc-years">Investment period (years)</label>
+        <input class="form-input" type="number" id="calc-years" value="10" oninput="calcUpdate()" />
+      </div>
+    </div>
+    <div class="result-panel">
+      <div style="font-size:11px;color:#0F6E56;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:6px;">Final value</div>
+      <div class="result-num" id="calc-result">Rs 0</div>
+      <div class="result-label" id="calc-gain"></div>
+      <div style="margin-top:20px;">
+        <div class="result-row"><span class="result-row-label">Money you put in</span><span class="result-row-val" id="calc-invested"></span></div>
+        <div class="result-row"><span class="result-row-label">Returns earned</span><span class="result-row-val" id="calc-returns"></span></div>
+        <div class="result-row"><span class="result-row-label">Total growth</span><span class="result-row-val" id="calc-pct"></span></div>
+      </div>
+      <button class="green-btn" id="calc-ask-btn" onclick="calcAskAI()">Is this realistic for PSX? Ask AI →</button>
+    </div>
+  </div>
+  <div class="ai-response" id="calc-ai-box">
+    <div class="ai-response-label">AI Analysis</div>
+    <div id="calc-ai-text"></div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- EXPLAINER -->
+<section id="explainer">
+  <div class="section-eyebrow">Explain It Like I'm 12</div>
+  <h2 class="section-title">Confused by a term or stock?</h2>
+  <p class="section-sub">Type anything — a company name, a financial term, or a concept — and get a simple explanation powered by Claude AI.</p>
+  <div class="explain-wrap">
+    <div class="explain-input-row">
+      <input type="text" id="explain-input" placeholder="e.g. What is a dividend? / Tell me about ENGRO / What is P/E ratio?" onkeydown="if(event.key==='Enter') triggerExplain()" />
+      <button class="explain-btn" id="explain-btn" onclick="triggerExplain()">Explain it <i class="ti ti-arrow-right"></i></button>
+    </div>
+    <div class="explain-tags">
+      <button class="tag" onclick="setExplain('What is a dividend?')">Dividend</button>
+      <button class="tag" onclick="setExplain('What is the P/E ratio?')">P/E ratio</button>
+      <button class="tag" onclick="setExplain('What is the KSE-100 index?')">KSE-100</button>
+      <button class="tag" onclick="setExplain('What is a bull market?')">Bull market</button>
+      <button class="tag" onclick="setExplain('How does inflation affect stocks in Pakistan?')">Inflation &amp; stocks</button>
+      <button class="tag" onclick="setExplain('Tell me about OGDC as a beginner stock pick on PSX')">OGDC</button>
+      <button class="tag" onclick="setExplain('What is dollar cost averaging?')">DCA strategy</button>
+      <button class="tag" onclick="setExplain('What is a mutual fund in Pakistan?')">Mutual funds</button>
+    </div>
+    <div class="explain-output">
+      <div class="explain-output-label" id="explain-output-label">Ready to explain</div>
+      <div class="explain-bubble" id="explain-output-text">
+        Choose a topic above or type your own question. I'll explain it in plain, simple English — like you're hearing it for the first time.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- COMPARISON -->
+<section id="compare">
+  <div class="section-eyebrow">Pakistan vs. Your Alternatives</div>
+  <h2 class="section-title">Where should your money go?</h2>
+  <p class="section-sub">A realistic side-by-side of Pakistan's main investment options.</p>
+  <div class="comp-grid">
+    <div class="comp-card featured">
+      <div class="comp-badge">Highest potential</div>
+      <div class="comp-header">
+        <div class="comp-icon" style="background:#E1F5EE;color:#0F6E56;"><i class="ti ti-chart-candle"></i></div>
+        <div><div class="comp-name">PSX Stocks</div><div class="comp-type">Equity market</div></div>
+      </div>
+      <div class="comp-rows">
+        <div class="comp-row"><span>Avg. annual return</span><span class="comp-row-val up">12–18%</span></div>
+        <div class="comp-row"><span>Risk level</span><span class="comp-row-val" style="color:#BA7517;">Medium–High</span></div>
+        <div class="comp-row"><span>Liquidity</span><span class="comp-row-val up">High</span></div>
+        <div class="comp-row"><span>Min. investment</span><span class="comp-row-val">Rs 500</span></div>
+        <div class="comp-row"><span>Tax on gains</span><span class="comp-row-val">0–15%</span></div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-building-bank"></i></div>
+        <div><div class="comp-name">Savings / NSS</div><div class="comp-type">Bank &amp; national savings</div></div>
+      </div>
+      <div class="comp-rows">
+        <div class="comp-row"><span>Avg. annual return</span><span class="comp-row-val" style="color:#BA7517;">12–16%</span></div>
+        <div class="comp-row"><span>Risk level</span><span class="comp-row-val up">Very Low</span></div>
+        <div class="comp-row"><span>Liquidity</span><span class="comp-row-val up">Very High</span></div>
+        <div class="comp-row"><span>Min. investment</span><span class="comp-row-val">Rs 500</span></div>
+        <div class="comp-row"><span>Tax on gains</span><span class="comp-row-val">Withheld</span></div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-icon" style="background:#FAEEDA;color:#EF9F27;"><i class="ti ti-coin"></i></div>
+        <div><div class="comp-name">Gold</div><div class="comp-type">Commodity</div></div>
+      </div>
+      <div class="comp-rows">
+        <div class="comp-row"><span>Avg. annual return</span><span class="comp-row-val" style="color:#BA7517;">10–18%</span></div>
+        <div class="comp-row"><span>Risk level</span><span class="comp-row-val" style="color:#BA7517;">Medium</span></div>
+        <div class="comp-row"><span>Liquidity</span><span class="comp-row-val" style="color:#BA7517;">Medium</span></div>
+        <div class="comp-row"><span>Min. investment</span><span class="comp-row-val">~Rs 20,000</span></div>
+        <div class="comp-row"><span>Tax on gains</span><span class="comp-row-val">Varies</span></div>
+      </div>
+    </div>
+  </div>
+  <button class="wide-btn" id="compare-extend-btn" onclick="compareExtend()">Get AI deep-dive: PSX vs real estate vs crypto →</button>
+  <div class="ai-response" id="compare-ai-box">
+    <div class="ai-response-label">AI Comparison</div>
+    <div id="compare-ai-text"></div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-eyebrow">Portfolio Assessor</div>
+  <h2 class="section-title">How healthy is your portfolio?</h2>
+  <p class="section-sub">Add your holdings — the AI will assess diversification, risk, and whether your expectations are realistic.</p>
+  <div class="port-wrap">
+    <div class="port-header">
+      <div class="port-header-label">Add a stock holding</div>
+      <div class="port-add-row">
+        <input type="text" id="p-name" placeholder="Stock symbol (e.g. OGDC)" onkeydown="if(event.key==='Enter') addStock()" />
+        <input type="number" id="p-amount" placeholder="Amount (Rs)" onkeydown="if(event.key==='Enter') addStock()" />
+        <input type="text" id="p-expect" placeholder="Expected return? (e.g. 20%/yr)" onkeydown="if(event.key==='Enter') addStock()" />
+        <button class="port-add-btn" onclick="addStock()">+ Add</button>
+      </div>
+    </div>
+    <div class="port-body">
+      <div class="port-list" id="port-list">
+        <div style="text-align:center;padding:20px 0;color:var(--text-secondary);font-size:13px;">No holdings yet. Add your first stock above.</div>
+      </div>
+      <div class="port-total-row">
+        <span class="muted">Total invested</span>
+        <span style="font-family:var(--font-mono);font-weight:800;" id="port-total">Rs 0</span>
+      </div>
+      <button class="port-assess-btn" id="port-assess-btn" onclick="assessPortfolio()">Assess my portfolio with AI →</button>
+      <div class="port-summary">
+        <div class="port-summary-title">Quick snapshot</div>
+        <div class="port-scores" id="port-scores">
+          <div class="port-score-item"><div class="port-score-num" style="color:var(--text-secondary);">—</div><div class="port-score-label">Diversification</div></div>
+          <div class="port-score-item"><div class="port-score-num" style="color:var(--text-secondary);">—</div><div class="port-score-label">Risk level</div></div>
+          <div class="port-score-item"><div class="port-score-num" style="color:var(--text-secondary);">0</div><div class="port-score-label">Holdings</div></div>
+        </div>
+      </div>
+      <div class="ai-response" id="port-ai-box">
+        <div class="ai-response-label">AI Portfolio Assessment</div>
+        <div id="port-ai-text"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ft-wrap">
+<footer class="glass-footer liquid-glass">
+  <div class="ft-grid">
+    <div>
+      <div class="ft-logo">
+        <i class="ti ti-chart-candle" style="font-size:18px;" aria-hidden="true"></i>
+        PSX<span>Hub</span>
+      </div>
+      <p class="ft-desc">PSXHub provides premium clarity on Pakistan's stock market — tools, education, and AI-powered guidance, free for every investor.</p>
+    </div>
+    <div>
+      <div class="ft-col-head">Explore</div>
+      <div class="ft-links">
+        <button class="ft-link" onclick="smoothScroll('#dashboard')">Market Dashboard</button>
+        <button class="ft-link" onclick="smoothScroll('#dashboard')">KSE-100 Index</button>
+        <button class="ft-link" onclick="smoothScroll('#dashboard')">Sector Breakdown</button>
+        <button class="ft-link" onclick="smoothScroll('#compare')">PSX vs Alternatives</button>
+        <button class="ft-link">Future Roadmap</button>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-head">Learn</div>
+      <div class="ft-links">
+        <button class="ft-link" onclick="smoothScroll('#explainer')">Explain It Like I'm 12</button>
+        <button class="ft-link" onclick="smoothScroll('#calculator')">Investment Calculator</button>
+        <button class="ft-link" onclick="smoothScroll('#portfolio')">Portfolio Assessor</button>
+        <button class="ft-link">Beginner's Guide</button>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-head">Support</div>
+      <div class="ft-links">
+        <button class="ft-link">Get in Touch</button>
+        <button class="ft-link">Legal & Privacy</button>
+        <button class="ft-link">User Agreement</button>
+        <button class="ft-link">Report Concern</button>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p class="ft-copy">© 2026 PSXHub · For educational purposes only · Not financial advice</p>
+    <div class="ft-social">
+      <span class="ft-social-label">Follow:</span>
+      <i class="ti ti-brand-twitter ft-icon" aria-label="Twitter"></i>
+      <i class="ti ti-brand-instagram ft-icon" aria-label="Instagram"></i>
+      <i class="ti ti-brand-facebook ft-icon" aria-label="Facebook"></i>
+      <i class="ti ti-brand-youtube ft-icon" aria-label="YouTube"></i>
+      <i class="ti ti-brand-linkedin ft-icon" aria-label="LinkedIn"></i>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+let holdings = [];
+
+const STOCKS = [
+  { symbol:'OGDC',  name:'Oil & Gas Dev.',   sector:'Oil & Gas',     price:187.50, change:1.2,  volume:'28.4M', pe:'5.2x' },
+  { symbol:'HBL',   name:'Habib Bank',        sector:'Banking',       price:142.20, change:-0.5, volume:'15.1M', pe:'4.1x' },
+  { symbol:'ENGRO', name:'Engro Corp',         sector:'Fertilizer',    price:255.75, change:1.5,  volume:'9.8M',  pe:'6.7x' },
+  { symbol:'LUCK',  name:'Lucky Cement',       sector:'Cement',        price:890.00, change:0.3,  volume:'2.3M',  pe:'8.9x' },
+  { symbol:'PSO',   name:'Pakistan State Oil', sector:'Oil Marketing', price:310.00, change:2.1,  volume:'11.6M', pe:'3.8x' },
+  { symbol:'MCB',   name:'MCB Bank',           sector:'Banking',       price:200.10, change:-0.9, volume:'7.2M',  pe:'5.5x' },
+  { symbol:'FFC',   name:'Fauji Fertilizer',   sector:'Fertilizer',    price:112.00, change:0.6,  volume:'5.9M',  pe:'4.4x' },
+  { symbol:'UBL',   name:'United Bank',        sector:'Banking',       price:175.40, change:-0.3, volume:'8.1M',  pe:'4.8x' },
+  { symbol:'MARI',  name:'Mari Petroleum',     sector:'Oil & Gas',     price:1840.00,change:1.8,  volume:'1.1M',  pe:'7.3x' },
+  { symbol:'BAHL',  name:'Bank Al-Habib',      sector:'Banking',       price:58.50,  change:0.4,  volume:'12.3M', pe:'3.9x' },
+];
+
+/* ============================================================
+   AI CALL — goes through our own /api/chat backend proxy,
+   which holds the real Anthropic API key server-side.
+   ============================================================ */
+async function callClaude(prompt, outputEl, btnEl, btnLabel) {
+  if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Thinking...'; }
+  outputEl.innerHTML = '<div class="ai-loading"><div class="spinner"></div>AI is thinking...</div>';
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'API error ' + res.status);
+    }
+
+    const text = data.text || 'No response received.';
+
+    // Convert markdown to HTML, and clean up any leftover AI-ish artifacts
+    const html = text
+      // strip markdown headers like "# Heading" -> "Heading"
+      .replace(/^#{1,6}\s*(.*)$/gm, '$1')
+      // bold / italic
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      // turn "- item" or "* item" lines into a simple bullet list
+      .replace(/(?:^|\n)([-*]\s+.*(?:\n[-*]\s+.*)*)/g, m => {
+        const items = m.trim().split(/\n/).map(l => l.replace(/^[-*]\s+/, '').trim());
+        return '<ul style="margin:8px 0 8px 18px;padding:0;">' + items.map(i => `<li>${i}</li>`).join('') + '</ul>';
+      })
+      // replace em dashes / double hyphens with a comma for a more natural feel
+      .replace(/\s*[—–]\s*|\s+--\s+/g, ', ')
+      // paragraph + line breaks
+      .replace(/\n\n/g, '</p><p style="margin-top:10px;">')
+      .replace(/\n/g, '<br>');
+    outputEl.innerHTML = '<p>' + html + '</p>';
+  } catch (err) {
+    outputEl.innerHTML = `<span style="color:var(--psx-red);">Error: ${err.message}</span>`;
+  } finally {
+    if (btnEl) { btnEl.disabled = false; btnEl.textContent = btnLabel || 'Try again'; }
+  }
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function renderStockTable() {
+  const tbody = document.getElementById('stock-table-body');
+  tbody.innerHTML = STOCKS.map(s => `
+    <tr onclick="explainStock('${s.symbol}','${s.name}','${s.sector}',${s.price},${s.change})">
+      <td><div class="stock-name">${s.symbol} — ${s.name}</div><div class="stock-sector">${s.sector}</div></td>
+      <td style="font-family:var(--font-mono);font-weight:700;">${s.price.toFixed(2)}</td>
+      <td><span class="pill ${s.change>=0?'pill-up':'pill-dn'}">${s.change>=0?'▲':'▼'} ${s.change>=0?'+':''}${s.change.toFixed(1)}%</span></td>
+      <td class="muted">${s.volume}</td>
+      <td class="muted">${s.pe}</td>
+    </tr>`).join('');
+}
+
+function renderTicker() {
+  const items = STOCKS.map(s =>
+    `<span class="ticker-item">${s.symbol} <strong class="${s.change>=0?'tick-up':'tick-dn'}">${s.price.toFixed(2)} ${s.change>=0?'▲':'▼'} ${s.change>=0?'+':''}${s.change.toFixed(1)}%</strong></span>`
+  ).join('');
+  document.getElementById('ticker-inner').innerHTML = items + items;
+}
+
+function explainStock(symbol, name, sector, price, change) {
+  const box = document.getElementById('stock-explain-box');
+  const textEl = document.getElementById('stock-explain-text');
+  box.classList.add('visible');
+  setTimeout(() => box.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+  callClaude(
+    `Explain ${symbol} (${name}) to a Pakistani beginner investor. It's a ${sector} company on PSX, currently at Rs ${price} (${change>=0?'up':'down'} ${Math.abs(change)}% today). Cover: what the company does, why Pakistanis invest in it, key risks, and whether it's a safe or aggressive pick. Under 180 words, very beginner-friendly.`,
+    textEl, null, null
+  );
+}
+
+/* ============================================================
+   CALCULATOR
+   ============================================================ */
+function calcUpdate() {
+  const p = parseFloat(document.getElementById('calc-principal').value)||0;
+  const m = parseFloat(document.getElementById('calc-monthly').value)||0;
+  const r = parseFloat(document.getElementById('calc-rate').value)/100||0;
+  const y = parseInt(document.getElementById('calc-years').value)||0;
+  const n = y*12, mr = r/12;
+  let fv = p*Math.pow(1+mr,n);
+  fv += mr>0 ? m*((Math.pow(1+mr,n)-1)/mr) : m*n;
+  const invested = p+m*n, returns = fv-invested;
+  const fmt = v => 'Rs '+Math.round(v).toLocaleString('en-PK');
+  document.getElementById('calc-result').textContent = fmt(fv);
+  document.getElementById('calc-gain').textContent = 'You earn '+fmt(returns)+' in returns';
+  document.getElementById('calc-invested').textContent = fmt(invested);
+  document.getElementById('calc-returns').textContent = fmt(returns);
+  document.getElementById('calc-pct').textContent = (invested>0?(fv/invested):1).toFixed(1)+'×';
+}
+calcUpdate();
+
+function calcAskAI() {
+  const p = parseFloat(document.getElementById('calc-principal').value)||0;
+  const m = parseFloat(document.getElementById('calc-monthly').value)||0;
+  const r = parseFloat(document.getElementById('calc-rate').value)||0;
+  const y = parseInt(document.getElementById('calc-years').value)||0;
+  const result = document.getElementById('calc-result').textContent;
+  const box = document.getElementById('calc-ai-box');
+  box.classList.add('visible');
+  const btn = document.getElementById('calc-ask-btn');
+  callClaude(
+    `A Pakistani beginner investor plans: starting Rs ${p.toLocaleString('en-PK')}, adding Rs ${m.toLocaleString('en-PK')}/month, expecting ${r}% annual return for ${y} years, projecting ${result}. Is this realistic on PSX? Comment on: (1) whether ${r}% is achievable, (2) what PSX stocks or funds could give this, (3) main risks, (4) one practical tip. Be honest but encouraging. Under 200 words.`,
+    document.getElementById('calc-ai-text'), btn, 'Is this realistic for PSX? Ask AI →'
+  );
+}
+
+/* ============================================================
+   EXPLAINER
+   ============================================================ */
+function setExplain(txt) {
+  document.getElementById('explain-input').value = txt;
+  triggerExplain();
+}
+function triggerExplain() {
+  const val = document.getElementById('explain-input').value.trim();
+  if (!val) return;
+  document.getElementById('explain-output-label').textContent = 'Explaining: ' + val;
+  const btn = document.getElementById('explain-btn');
+  callClaude(
+    `Explain this to a Pakistani beginner investor like they are 12 years old: "${val}". Use a simple real-life Pakistani analogy. Cover: what it means, why it matters for PSX investing, one practical takeaway. Under 180 words. Friendly tone.`,
+    document.getElementById('explain-output-text'), btn, 'Explain it'
+  );
+}
+
+/* ============================================================
+   COMPARISON
+   ============================================================ */
+function compareExtend() {
+  const box = document.getElementById('compare-ai-box');
+  box.classList.add('visible');
+  const btn = document.getElementById('compare-extend-btn');
+  callClaude(
+    `Compare these investment options for a middle-class Pakistani with Rs 5 lakh: PSX stocks, real estate in Pakistan, gold (tola), crypto (USDT/BTC), and National Savings Scheme. For each: typical annual return in Pakistan, minimum to start, liquidity, risk, and one key downside. End with a recommendation for a beginner wanting moderate risk. Under 300 words, clear and conversational.`,
+    document.getElementById('compare-ai-text'), btn, 'Get AI deep-dive: PSX vs real estate vs crypto →'
+  );
+}
+
+/* ============================================================
+   PORTFOLIO
+   ============================================================ */
+function addStock() {
+  const name = document.getElementById('p-name').value.trim().toUpperCase();
+  const amount = parseFloat(document.getElementById('p-amount').value)||0;
+  const expect = document.getElementById('p-expect').value.trim();
+  if (!name||!amount) return;
+  holdings.push({name,amount,expect});
+  document.getElementById('p-name').value='';
+  document.getElementById('p-amount').value='';
+  document.getElementById('p-expect').value='';
+  renderHoldings();
+}
+function removeStock(i) { holdings.splice(i,1); renderHoldings(); }
+function renderHoldings() {
+  const list = document.getElementById('port-list');
+  const total = holdings.reduce((s,h)=>s+h.amount,0);
+  list.innerHTML = holdings.length===0
+    ? '<div style="text-align:center;padding:20px 0;color:var(--text-secondary);font-size:13px;">No holdings yet. Add your first stock above.</div>'
+    : holdings.map((h,i)=>`
+        <div class="port-row">
+          <div><div class="port-stock">${h.name}</div><div class="port-meta">Expected: ${h.expect||'Not specified'}</div></div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-mono);font-weight:700;">Rs ${h.amount.toLocaleString('en-PK')}</div>
+              <div class="port-meta">${total>0?((h.amount/total)*100).toFixed(1)+'% of portfolio':''}</div>
+            </div>
+            <button class="port-remove" onclick="removeStock(${i})"><i class="ti ti-x"></i></button>
+          </div>
+        </div>`).join('');
+  document.getElementById('port-total').textContent = 'Rs '+total.toLocaleString('en-PK');
+  updateSnapshot();
+}
+function updateSnapshot() {
+  const n = holdings.length;
+  const div = n>=6?'A':n>=4?'B+':n>=2?'B':n===1?'C':'—';
+  const risk = n>=5?'Low':n>=3?'Med':n>=1?'High':'—';
+  document.getElementById('port-scores').innerHTML = `
+    <div class="port-score-item"><div class="port-score-num" style="color:var(--psx-green-dark);">${div}</div><div class="port-score-label">Diversification</div></div>
+    <div class="port-score-item"><div class="port-score-num" style="color:#BA7517;">${risk}</div><div class="port-score-label">Risk level</div></div>
+    <div class="port-score-item"><div class="port-score-num" style="color:var(--psx-green-dark);">${n}</div><div class="port-score-label">Holdings</div></div>`;
+}
+function assessPortfolio() {
+  if (!holdings.length) { alert('Add at least one stock first.'); return; }
+  const total = holdings.reduce((s,h)=>s+h.amount,0);
+  const summary = holdings.map(h=>`- ${h.name}: Rs ${h.amount.toLocaleString('en-PK')} (${((h.amount/total)*100).toFixed(1)}% of portfolio, expected: ${h.expect||'not specified'})`).join('\n');
+  const box = document.getElementById('port-ai-box');
+  box.classList.add('visible');
+  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  const btn = document.getElementById('port-assess-btn');
+  callClaude(
+    `Assess this Pakistani beginner's PSX portfolio:\nTotal: Rs ${total.toLocaleString('en-PK')}\n${summary}\n\nAssess: (1) diversification across sectors, (2) concentration risk, (3) realistic return expectations, (4) missing important PSX sectors, (5) overall verdict, (6) one specific recommendation. Be honest, direct, beginner-friendly. Under 300 words.`,
+    document.getElementById('port-ai-text'), btn, 'Assess my portfolio with AI →'
+  );
+}
+
+/* ============================================================
+   NAV + INIT
+   ============================================================ */
+function smoothScroll(sel) { document.querySelector(sel)?.scrollIntoView({behavior:'smooth'}); }
+const NAV_IDS = ['dashboard','calculator','explainer','compare','portfolio'];
+window.addEventListener('scroll',()=>{
+  let cur='';
+  NAV_IDS.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-80)cur=id;});
+  document.querySelectorAll('.nav-link').forEach((b,i)=>b.classList.toggle('active',NAV_IDS[i]===cur));
+});
+renderStockTable();
+renderTicker();
+
+const mainNav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > window.innerHeight - 80) {
+    mainNav.style.position = 'fixed';
+    mainNav.style.top = '0';
+  } else {
+    mainNav.style.position = 'absolute';
+    mainNav.style.top = '48px';
+  }
+});
+</script>
+</body>
+</html>
